@@ -1,0 +1,63 @@
+{
+  "name": "memman",
+  "version": "0.1.0",
+  "description": "Unified memory manager for AI coding assistants - sync CLAUDE.md, AGENTS.md, and more",
+  "type": "module",
+  "bin": {
+    "memman": "./dist/cli/index.js"
+  },
+  "exports": {
+    ".": "./dist/core/index.js",
+    "./mcp": "./dist/mcp/server.js"
+  },
+  "files": [
+    "dist",
+    "src/hooks"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "claude",
+    "codex",
+    "cursor",
+    "copilot",
+    "ai",
+    "memory",
+    "agents",
+    "claude-md",
+    "agents-md",
+    "sync",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "better-sqlite3": "^11.8.1",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "glob": "^11.0.1",
+    "gray-matter": "^4.0.3",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
+    "unified": "^11.0.5",
+    "xxhash-wasm": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.13.4",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
