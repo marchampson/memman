@@ -22,12 +22,12 @@
 - Use vitest for all tests
 - Tests live in `tests/` mirroring `src/` structure
 - Fixtures in `tests/fixtures/`
-- Run: `npm test`
+- Run: `bun test`
 
 ## Build
 - tsup for bundling (separate configs for CLI with shebang vs library)
-- `npm run build` to build
-- `npm run dev` for watch mode
+- `bun run build` to build
+- `bun run dev` for watch mode
 
 ## Memory (MCP)
 - When you learn something new about this project or the user corrects you, use the `save_correction` MCP tool to record it

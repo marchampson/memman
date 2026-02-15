@@ -28,3 +28,16 @@
 - Content hashing uses SHA-256 truncated to 16 hex chars
 - SQLite for metadata, markdown files remain the source of truth
 - Interactive hooks must complete within 3 seconds
+
+<!-- memman:start id=synced -->
+## Synced from CLAUDE.md
+
+- Syncs CLAUDE.md <-> AGENTS.md, captures corrections, optimizes memory loading
+- `src/mcp/` - MCP server with 5 tools (query_memory, save_memory, save_correction, sync_status, suggest_memory)
+- `src/hooks/` - Shell scripts for Claude Code hooks (session-start, prompt-submit, post-tool-use, session-end)
+- Fixtures in `tests/fixtures/`
+- tsup for bundling (separate configs for CLI with shebang vs library)
+- `npm run build` to build
+- `npm run dev` for watch mode
+- ## Key Conventions
+<!-- memman:end id=synced -->
