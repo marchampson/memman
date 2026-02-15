@@ -1,7 +1,11 @@
 import { Command } from 'commander';
 import { resolveConfig, getDbPath } from '../../core/config.js';
 import { MemoryRepository } from '../../core/db/repository.js';
-import { getRecentlyModifiedFiles } from '../../core/staleness/git-analyzer.js';
+
+function toBullet(content: string): string {
+  const stripped = content.replace(/^[\s]*[-*+]\s+/, '');
+  return `- ${stripped}`;
+}
 
 export function contextCommand(): Command {
   return new Command('context')
@@ -42,7 +46,7 @@ export function contextCommand(): Command {
             for (const entry of matches) {
               const lineTokens = Math.ceil(entry.content.length / 4);
               if (tokenCount + lineTokens > maxTokens) break;
-              contextParts.push(`- ${entry.content}`);
+              contextParts.push(toBullet(entry.content));
               tokenCount += lineTokens;
               db.incrementUseCount(entry.id, `context:${options.query}`);
             }
@@ -57,7 +61,7 @@ export function contextCommand(): Command {
             for (const entry of pathMatched) {
               const lineTokens = Math.ceil(entry.content.length / 4);
               if (tokenCount + lineTokens > maxTokens) break;
-              contextParts.push(`- ${entry.content}`);
+              contextParts.push(toBullet(entry.content));
               tokenCount += lineTokens;
               db.incrementUseCount(entry.id, `context:path:${options.files.join(',')}`);
             }
