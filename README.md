@@ -145,7 +145,14 @@ memman captures corrections through multiple channels:
 2. **Post-edit hook** - Pattern matching flags potential corrections
 3. **Session-end hook** - LLM analysis (Claude Haiku, ~$0.001/session) extracts corrections from the full transcript
 
-Set `ANTHROPIC_API_KEY` to enable LLM-powered analysis. Without it, pattern matching is used as fallback.
+LLM-powered analysis requires explicit opt-in via two environment variables:
+
+```bash
+export ANTHROPIC_API_KEY="sk-..."     # Your API key
+export MEMMAN_LLM_ANALYSIS=1          # Explicit opt-in required
+```
+
+Without both variables set, only local pattern matching is used. This prevents accidental transmission of transcript content to external APIs.
 
 ## Staleness Detection
 
@@ -176,6 +183,12 @@ MCP Server    ----+
 - **SQLite** for metadata, sync state, and usage tracking
 - **Markdown files** remain the source of truth for content
 - **Hooks** run within 3-second latency budget (no LLM calls in interactive hooks)
+
+## Security Considerations
+
+- **Transcript upload is opt-in.** Session-end LLM analysis sends transcript content to the Anthropic API. This only happens when both `ANTHROPIC_API_KEY` and `MEMMAN_LLM_ANALYSIS=1` are set. Without explicit opt-in, all processing stays local.
+- **Corrections are stored locally and re-injected.** Captured corrections are persisted in a local SQLite database and surfaced via `memman context` in future sessions. If a correction accidentally contains a secret (API key, password, etc.), it will be stored and re-surfaced. Review corrections with `memman stale` and remove any that contain sensitive data.
+- **The database is local plaintext.** The SQLite database at `~/.claude/memory-manager/memory.db` is not encrypted. Protect it with filesystem permissions as you would any local config file.
 
 ## License
 

@@ -161,6 +161,7 @@ export interface MemmanConfig {
   syncDirection: SyncDirection;
   llm: {
     enabled: boolean;
+    optIn: boolean;
     apiKey?: string;
     model: string;
   };
@@ -171,6 +172,7 @@ export const DEFAULT_CONFIG: Partial<MemmanConfig> = {
   syncDirection: 'bidirectional',
   llm: {
     enabled: false,
+    optIn: false,
     model: 'claude-haiku-4-5-20251001',
   },
 };

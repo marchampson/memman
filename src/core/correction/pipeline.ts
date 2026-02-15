@@ -8,6 +8,7 @@ import type { Correction, MemoryCategory } from '../types.js';
 export interface PipelineOptions {
   db: MemoryRepository;
   apiKey?: string;
+  llmOptIn?: boolean;
   llmModel?: string;
   sessionId?: string;
 }
@@ -20,14 +21,14 @@ export async function processTranscript(
   transcript: string,
   options: PipelineOptions,
 ): Promise<Correction[]> {
-  const { db, apiKey, llmModel, sessionId } = options;
+  const { db, apiKey, llmOptIn, llmModel, sessionId } = options;
 
   // Step 1: Pattern-based detection
   const patternCandidates = detectCorrections(transcript);
 
-  // Step 2: LLM-powered extraction (if API key available)
+  // Step 2: LLM-powered extraction (requires both API key and explicit opt-in)
   let llmResults: Awaited<ReturnType<typeof extractCorrectionsWithLLM>>['corrections'] = [];
-  if (apiKey) {
+  if (apiKey && llmOptIn) {
     try {
       const result = await extractCorrectionsWithLLM(transcript, apiKey, llmModel);
       llmResults = result.corrections;

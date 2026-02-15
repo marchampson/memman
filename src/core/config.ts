@@ -27,6 +27,7 @@ export function resolveConfig(projectRoot?: string): MemmanConfig {
     syncDirection: 'bidirectional',
     llm: {
       enabled: false,
+      optIn: false,
       model: 'claude-haiku-4-5-20251001',
     },
   };
@@ -46,11 +47,15 @@ export function resolveConfig(projectRoot?: string): MemmanConfig {
   config.agentsMdPath = config.agentsMdPath ?? findAgentsMd(root);
   config.rulesDir = config.rulesDir ?? join(root, '.claude', 'rules');
 
-  // Check for API key
+  // Check for API key and LLM opt-in
   const apiKey = process.env.ANTHROPIC_API_KEY;
+  const llmOptIn = process.env.MEMMAN_LLM_ANALYSIS === '1';
   if (apiKey) {
-    config.llm.enabled = true;
     config.llm.apiKey = apiKey;
+  }
+  if (apiKey && llmOptIn) {
+    config.llm.enabled = true;
+    config.llm.optIn = true;
   }
 
   return config;

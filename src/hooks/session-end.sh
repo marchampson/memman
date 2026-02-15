@@ -19,15 +19,6 @@ fi
 
 # Run correction analysis in background (non-blocking)
 # The pipeline handles both pattern matching and LLM analysis
-node -e "
-  import('${MEMMAN_BIN}').then(async (mod) => {
-    // This is a simplified hook - the actual implementation
-    // reads the transcript and processes it through the pipeline
-    console.error('[memman] Session end: processing transcript for corrections');
-  }).catch(() => {
-    // Module not available as library, use CLI
-    console.error('[memman] Session end hook skipped (module not available)');
-  });
-" 2>/dev/null &
+"${MEMMAN_BIN}" context --project "${PROJECT_ROOT}" 2>/dev/null &
 
 exit 0
