@@ -29,8 +29,26 @@
 - `npm run build` to build
 - `npm run dev` for watch mode
 
+## Memory (MCP)
+- When you learn something new about this project or the user corrects you, use the `save_correction` MCP tool to record it
+- When working in an unfamiliar area, use `query_memory` to check for relevant conventions
+- Use `save_memory` to persist important decisions or patterns discovered during a session
+
 ## Key Conventions
 - Managed sections in markdown use `<!-- memman:start id=xxx -->` / `<!-- memman:end id=xxx -->` markers
 - Content hashing uses SHA-256 truncated to 16 hex chars
 - Hook latency budget: <3 seconds for interactive hooks (no LLM calls)
 - LLM analysis (Haiku) only in session-end hook (async, non-blocking)
+
+<!-- memman:start id=synced -->
+## Synced from AGENTS.md
+
+- TypeScript/Node.js CLI tool that syncs instruction files across AI coding tools
+- Captures corrections made during sessions and persists them
+- Optimizes memory file loading via path-scoped rules and selective context injection
+- `src/mcp/` - MCP server with tools for mid-session memory operations
+- `src/hooks/` - Shell scripts for automated correction capture and context injection
+- Managed sections in markdown use HTML comment markers for non-destructive syncing
+- Content hashing uses SHA-256 truncated to 16 hex chars
+- Interactive hooks must complete within 3 seconds
+<!-- memman:end id=synced -->

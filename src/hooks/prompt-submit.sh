@@ -1,18 +1,25 @@
 #!/usr/bin/env bash
 # memman prompt-submit hook
 # Injects query-relevant context when the user submits a prompt
-# Install: Add to .claude/settings.json hooks.UserPromptSubmit
-
 set -euo pipefail
 
-PROJECT_ROOT="${PWD}"
-MEMMAN_BIN="${MEMMAN_BIN:-memman}"
+MEMMAN_BIN="${CLAUDE_PROJECT_DIR}/dist/cli/index.js"
+
+if [ ! -f "${MEMMAN_BIN}" ]; then
+  exit 0
+fi
 
 # Read the user prompt from stdin
 PROMPT=$(cat)
 
-# Generate context based on the prompt
-CONTEXT=$("${MEMMAN_BIN}" context --project "${PROJECT_ROOT}" --query "${PROMPT}" --max-tokens 500 2>/dev/null || true)
+if [ -z "${PROMPT}" ]; then
+  exit 0
+fi
+
+# Extract first 200 chars as query (avoid passing huge prompts)
+QUERY=$(echo "${PROMPT}" | head -c 200)
+
+CONTEXT=$(node "${MEMMAN_BIN}" context --project "${CLAUDE_PROJECT_DIR}" --query "${QUERY}" --max-tokens 300 2>/dev/null || true)
 
 if [ -n "${CONTEXT}" ]; then
   echo "${CONTEXT}"
