@@ -3,7 +3,7 @@
     "memman": {
       "type": "stdio",
       "command": "node",
-      "args": ["${CLAUDE_PROJECT_DIR}/dist/cli/index.js", "serve"]
+      "args": ["./dist/cli/index.js", "serve"]
     }
   }
 }
